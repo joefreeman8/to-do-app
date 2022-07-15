@@ -1,16 +1,27 @@
 /* eslint-disable no-lone-blocks */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import TodoList from './components/TodoList'
 
 function App() {
 
   const [newTodo, setNewTodo] = useState('')
-  const [todoList, setTodoList] = useState([])
+  const [todoList, setTodoList] = useState(() => {
+    const storedTodos = window.localStorage.getItem('todoList')
+    if (storedTodos) {
+      return JSON.parse(storedTodos)
+    }
+    return []
+  })
   const hasNewTodo = !!newTodo.trim()
 
-  
-  // ** REMAINING TODOS COUNTER ***
+  // *** SET TO LOCAL STORAGE ***
+  useEffect(() => {
+    window.localStorage.setItem('todoList', JSON.stringify(todoList))
+  }, [todoList])
+
+
+  // *** REMAINING TODOS COUNTER ***
   const remainingTodos = todoList.filter(todo => !todo.completed).length
 
 
