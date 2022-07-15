@@ -9,6 +9,9 @@ function App() {
   const [todoList, setTodoList] = useState([])
 
 
+  // ** REMAINING TODOS COUNTER ***
+  const remainingTodos = todoList.filter(todo => !todo.completed).length
+
   // *** ADD TODO FUNCTION ***
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -61,7 +64,7 @@ function App() {
 
   return (
     <main>
-      <h1>Hello, you have X remaining to do</h1>
+      <h1>Hello, you have {remainingTodos} remaining to do</h1>
       <form onSubmit={handleSubmit}>
         <input placeholder="Task" value={newTodo} onChange={handleChange} />
         <button>Add</button>
