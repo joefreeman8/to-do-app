@@ -1,7 +1,12 @@
-function TodoList({ task, handleDelete }) {
+function TodoList({ task, handleDelete, completed, handleClick }) {
   return (
     <>
-      <li>{task}</li>
+      <li 
+        className={completed ? 'completed' : ''}
+        onClick={handleClick}
+      >
+        {task}
+      </li>
       <button onClick={handleDelete}>remove</button>
     </>
   )

@@ -37,6 +37,17 @@ function App() {
     setTodoList(filteredTodos)
   }
 
+  // *** COMPLETED TODO FUNCTION ***
+  const toggleCompleted = (todoId) => {
+    const completedTodos = todoList.map(todo => {
+      if (todo.id === todoId) {
+        return { ...todo, completed: !todo.completed }
+      }
+      return todo
+    })
+    setTodoList(completedTodos)
+  }
+
   return (
     <main>
       <h1>Hello, you have X remaining to do</h1>
@@ -49,7 +60,9 @@ function App() {
           <TodoList
             key={todo.id}
             task={todo.task} 
+            completed={todo.completed}
             handleDelete={() => deleteTodo(todo.id)}
+            handleClick={() => toggleCompleted(todo.id)}
           />
         ))}
       </ul>
