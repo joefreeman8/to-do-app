@@ -7,15 +7,18 @@ function App() {
 
   const [newTodo, setNewTodo] = useState('')
   const [todoList, setTodoList] = useState([])
+  const hasNewTodo = !!newTodo.trim()
 
-
+  
   // ** REMAINING TODOS COUNTER ***
   const remainingTodos = todoList.filter(todo => !todo.completed).length
+
 
   // *** ADD TODO FUNCTION ***
   const handleSubmit = (e) => {
     e.preventDefault()
-
+    if (!hasNewTodo) return 
+    
     const createdTodo = {
       task: newTodo,
       completed: false,
@@ -40,6 +43,7 @@ function App() {
     setTodoList(filteredTodos)
   }
 
+
   // *** COMPLETED TODO FUNCTION ***
   const toggleCompleted = (todoId) => {
     const completedTodos = todoList.map(todo => {
@@ -50,6 +54,7 @@ function App() {
     })
     setTodoList(completedTodos)
   }
+
 
   //  *** DELETE COMPLETED TODO FUNCTION ***
   const deleteCompletedTodo = (completedTrueRemove) => {
@@ -67,7 +72,7 @@ function App() {
       <h1>Hello, you have {remainingTodos} remaining to do</h1>
       <form onSubmit={handleSubmit}>
         <input placeholder="Task" value={newTodo} onChange={handleChange} />
-        <button>Add</button>
+        <button disabled={!hasNewTodo}>Add</button>
       </form>
       <ul>
         {todoList.map(todo => (
