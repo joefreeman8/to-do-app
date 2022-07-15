@@ -9,7 +9,7 @@ function App() {
   const [todoList, setTodoList] = useState([])
 
 
-  // *** Add Todo function ***
+  // *** ADD TODO FUNCTION ***
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -29,7 +29,7 @@ function App() {
   }
 
 
-  // *** Delete Todo Function ***
+  // *** DELETE TODO FUNCTION ***
   const deleteTodo = (todoIdToRemove) => {
     const filteredTodos = todoList.filter(todo => {
       return todo.id !== todoIdToRemove
@@ -46,6 +46,17 @@ function App() {
       return todo
     })
     setTodoList(completedTodos)
+  }
+
+  //  *** DELETE COMPLETED TODO FUNCTION ***
+  const deleteCompletedTodo = (completedTrueRemove) => {
+    const filteredCompletedTodos = todoList.filter(todo => {
+      if (todo.completed !== true) {
+        return completedTrueRemove
+      // eslint-disable-next-line array-callback-return
+      } return
+    }) 
+    setTodoList(filteredCompletedTodos)
   }
 
   return (
@@ -66,6 +77,7 @@ function App() {
           />
         ))}
       </ul>
+      <button onClick={deleteCompletedTodo}>Remove all completed</button>
 
     </main>
   )
