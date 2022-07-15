@@ -8,7 +8,8 @@ function App() {
   const [newTodo, setNewTodo] = useState('')
   const [todoList, setTodoList] = useState([])
 
-  // Handle adding a new To-Do
+
+  // *** Add Todo function ***
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -21,11 +22,20 @@ function App() {
     setNewTodo('')
   }
 
+
   // Set the e.target.value (contents) of a new todo to handleChange
   const handleChange = (e) => {
     setNewTodo(e.target.value)
   }
 
+
+  // *** Delete Todo Function ***
+  const deleteTodo = (todoIdToRemove) => {
+    const filteredTodos = todoList.filter(todo => {
+      return todo.id !== todoIdToRemove
+    })
+    setTodoList(filteredTodos)
+  }
 
   return (
     <main>
@@ -39,6 +49,7 @@ function App() {
           <TodoList
             key={todo.id}
             task={todo.task} 
+            handleDelete={() => deleteTodo(todo.id)}
           />
         ))}
       </ul>

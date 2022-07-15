@@ -1,6 +1,9 @@
-function TodoList({ task }) {
+function TodoList({ task, handleDelete }) {
   return (
-    <li>{task}</li>
+    <>
+      <li>{task}</li>
+      <button onClick={handleDelete}>remove</button>
+    </>
   )
 }
 
