@@ -6,9 +6,11 @@ import TodoList from './components/TodoList'
 function App() {
 
   const [newTodo, setNewTodo] = useState('')
+  // the state below runs on the mount of the page, checking and getting the todos from storage.
   const [todoList, setTodoList] = useState(() => {
     const storedTodos = window.localStorage.getItem('todoList')
     if (storedTodos) {
+      // parse string to become array.
       return JSON.parse(storedTodos)
     }
     return []
@@ -16,6 +18,7 @@ function App() {
   const hasNewTodo = !!newTodo.trim()
 
   // ********** SET TO LOCAL STORAGE **********
+  // useEffect allows us to react to the value updating (adding, completing, deleting), then setItem to localStorage changing it from an object to JSON (a string) 
   useEffect(() => {
     window.localStorage.setItem('todoList', JSON.stringify(todoList))
   }, [todoList])
@@ -63,6 +66,7 @@ function App() {
 
 
     // ********** DELETE TODO FUNCTION **********
+    // filter array of todos and only return the ID's which we are not looking for. This will then work as a delete
     const deleteTodo = (todoIdToRemove) => {
       const filteredTodos = todoList.filter(todo => {
         return todo.id !== todoIdToRemove
@@ -72,12 +76,15 @@ function App() {
 
 
   //  ********** DELETE COMPLETED TODO FUNCTION **********
+  // filter array of todos and only return the ones which are completed: false
+  // otherwise return nothing
   const deleteCompletedTodo = (completedTrueRemove) => {
     const filteredCompletedTodos = todoList.filter(todo => {
       if (todo.completed !== true) {
         return completedTrueRemove
+      }
       // eslint-disable-next-line array-callback-return
-      } return
+      return
     }) 
     setTodoList(filteredCompletedTodos)
   }
@@ -95,7 +102,6 @@ function App() {
             key={todo.id}
             task={todo.task} 
             completed={todo.completed}
-            // function definition, delays the function running until the click takes place. 
             handleDelete={() => deleteTodo(todo.id)}
             handleClick={() => toggleCompleted(todo.id)}
           />
