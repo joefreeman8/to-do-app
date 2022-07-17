@@ -1,6 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
+import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 function App() {
@@ -15,59 +16,63 @@ function App() {
   })
   const hasNewTodo = !!newTodo.trim()
 
-  // *** SET TO LOCAL STORAGE ***
+  // ********** SET TO LOCAL STORAGE **********
   useEffect(() => {
     window.localStorage.setItem('todoList', JSON.stringify(todoList))
   }, [todoList])
 
 
-  // *** REMAINING TODOS COUNTER ***
+  // ********** REMAINING TODOS COUNTER **********
+  // filtering to find incomplete todos and then .length to count them. 
   const remainingTodos = todoList.filter(todo => !todo.completed).length
 
 
-  // *** ADD TODO FUNCTION ***
+  // ********** ADD NEW TODO FUNCTION **********
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!hasNewTodo) return 
-    
+    // new todo object which gets added to the list. 
     const createdTodo = {
       task: newTodo,
       completed: false,
       id: uuid(),
     }
+    // spread in old todos (...todoList) and add new todo at the end (createdTodo)
     setTodoList([...todoList, createdTodo])
     setNewTodo('')
   }
 
 
-  // Set the e.target.value (contents) of a new todo to handleChange
+  // ********** CAPTURE WHAT THE USER IS TYPING FOR THEIR NEW TODO **********
   const handleChange = (e) => {
     setNewTodo(e.target.value)
   }
 
 
-  // *** DELETE TODO FUNCTION ***
-  const deleteTodo = (todoIdToRemove) => {
-    const filteredTodos = todoList.filter(todo => {
-      return todo.id !== todoIdToRemove
-    })
-    setTodoList(filteredTodos)
-  }
-
-
-  // *** COMPLETED TODO FUNCTION ***
+  // ********** COMPLETED TODO FUNCTION **********
   const toggleCompleted = (todoId) => {
     const completedTodos = todoList.map(todo => {
       if (todo.id === todoId) {
+        // return new object and spread in old todo and update completed boolean to toggle on and off with the bang.
         return { ...todo, completed: !todo.completed }
       }
+      // return uncompleted todo's in original state
       return todo
     })
     setTodoList(completedTodos)
   }
 
 
-  //  *** DELETE COMPLETED TODO FUNCTION ***
+    // ********** DELETE TODO FUNCTION **********
+    const deleteTodo = (todoIdToRemove) => {
+      const filteredTodos = todoList.filter(todo => {
+        return todo.id !== todoIdToRemove
+      })
+      setTodoList(filteredTodos)
+    }
+
+
+  //  ********** DELETE COMPLETED TODO FUNCTION **********
   const deleteCompletedTodo = (completedTrueRemove) => {
     const filteredCompletedTodos = todoList.filter(todo => {
       if (todo.completed !== true) {
@@ -81,16 +86,19 @@ function App() {
   return (
     <main>
       <h1>Hello, you have {remainingTodos} remaining to do</h1>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Task" value={newTodo} onChange={handleChange} />
-        <button disabled={!hasNewTodo}>Add</button>
-      </form>
+      <TodoForm 
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        newTodo={newTodo}
+        hasNewTodo={hasNewTodo}
+      />
       <ul>
         {todoList.map(todo => (
           <TodoList
             key={todo.id}
             task={todo.task} 
             completed={todo.completed}
+            // function definition, delays the function running until the click takes place. 
             handleDelete={() => deleteTodo(todo.id)}
             handleClick={() => toggleCompleted(todo.id)}
           />
