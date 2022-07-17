@@ -1,7 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 function App() {
@@ -86,12 +85,10 @@ function App() {
   return (
     <main>
       <h1>Hello, you have {remainingTodos} remaining to do</h1>
-      <TodoForm 
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        newTodo={newTodo}
-        hasNewTodo={hasNewTodo}
-      />
+      <form onSubmit={handleSubmit}>
+        <input placeholder="Task" value={newTodo} onChange={handleChange} />
+        <button disabled={!hasNewTodo}>Add</button>
+      </form>
       <ul>
         {todoList.map(todo => (
           <TodoList
