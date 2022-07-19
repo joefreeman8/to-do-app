@@ -9,7 +9,9 @@ function TodoList({ task, completed, handleDelete, handleClick }) {
       >
         {task}
       </li>
-      <button onClick={handleDelete}>remove</button>
+      <div className="delete-button-container">
+        <button className="delete-button" onClick={handleDelete}>remove</button>
+      </div>
     </>
   )
 }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import TodoList from './components/TodoList'
 
+
 function App() {
 
   const [newTodo, setNewTodo] = useState('')
@@ -69,15 +70,16 @@ function App() {
     // filter array of todos and only return the ID's which we are not looking for. This will then work as a delete
     const deleteTodo = (todoIdToRemove) => {
       const filteredTodos = todoList.filter(todo => {
-        return todo.id !== todoIdToRemove
-      })
+        return todo.id !== todoIdToRemove 
+      }
+    )
       setTodoList(filteredTodos)
     }
 
 
   //  ********** DELETE COMPLETED TODO FUNCTION **********
   // filter array of todos and only return the ones which are completed: false
-  // otherwise return nothing
+  // otherwise return nothing.
   const deleteCompletedTodo = (completedTrueRemove) => {
     const filteredCompletedTodos = todoList.filter(todo => {
       if (todo.completed !== true) {
@@ -89,9 +91,11 @@ function App() {
     setTodoList(filteredCompletedTodos)
   }
 
+
+
   return (
     <main>
-      <h1>Hello, you have {remainingTodos} remaining to do</h1>
+      <h1>You have {remainingTodos} task(s) to be completed</h1>
       <form onSubmit={handleSubmit}>
         <input placeholder="Task" value={newTodo} onChange={handleChange} />
         <button disabled={!hasNewTodo}>Add</button>
