@@ -32,7 +32,7 @@ function App() {
   // ********** ADD NEW TODO FUNCTION **********
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!hasNewTodo) return 
+    if (!hasNewTodo) return
     // new todo object which gets added to the list. 
     const createdTodo = {
       task: newTodo,
@@ -40,7 +40,7 @@ function App() {
       id: uuid(),
     }
     // spread in old todos (...todoList) and add new todo at the end (createdTodo)
-    setTodoList([...todoList, createdTodo])
+    setTodoList([createdTodo, ...todoList])
     setNewTodo('')
   }
 
@@ -65,18 +65,18 @@ function App() {
   }
 
 
-    // ********** DELETE TODO FUNCTION **********
-    // filter array of todos and only return the ID's which we are not looking for. This will then work as a delete
-    const deleteTodo = (todoIdToRemove) => {
-      const filteredTodos = todoList.filter(todo => {
-        return todo.id !== todoIdToRemove 
-      }
-    )
-      setTodoList(filteredTodos)
+  // ********** DELETE TODO FUNCTION **********
+  // filter array of todos and only return the ID's which we are not looking for. This will then work as a delete
+  const deleteTodo = (todoIdToRemove) => {
+    const filteredTodos = todoList.filter(todo => {
+      return todo.id !== todoIdToRemove
     }
+    )
+    setTodoList(filteredTodos)
+  }
 
 
-  //  ********** DELETE COMPLETED TODO FUNCTION **********
+  //  ********** DELETE ALL COMPLETED TODO'S FUNCTION **********
   // filter array of todos and only return the ones which are completed: false
   // otherwise return nothing.
   const deleteCompletedTodo = (completedTrueRemove) => {
@@ -86,7 +86,7 @@ function App() {
       }
       // eslint-disable-next-line array-callback-return
       return
-    }) 
+    })
     setTodoList(filteredCompletedTodos)
   }
 
@@ -103,7 +103,7 @@ function App() {
         {todoList.map(todo => (
           <TodoList
             key={todo.id}
-            task={todo.task} 
+            task={todo.task}
             completed={todo.completed}
             handleDelete={() => deleteTodo(todo.id)}
             handleClick={() => toggleCompleted(todo.id)}
