@@ -15,7 +15,10 @@ function App() {
     }
     return []
   })
+
+  // to remove whitespace from either end of the Todo.
   const hasNewTodo = !!newTodo.trim()
+
 
   // ********** SET TO LOCAL STORAGE **********
   // useEffect allows us to react to the value updating (adding, completing, deleting), then setItem to localStorage changing it from an object to JSON (a string) 
